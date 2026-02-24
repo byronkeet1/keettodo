@@ -10,22 +10,36 @@ class TodoApp {
         this.itemsLeft = document.getElementById('itemsLeft');
         this.clearCompleted = document.getElementById('clearCompleted');
         
+        this.darkModeToggle = document.getElementById('darkModeToggle');
+
         this.init();
     }
-    
+
     init() {
         this.addBtn.addEventListener('click', () => this.addTodo());
         this.todoInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.addTodo();
         });
-        
+
         this.filterBtns.forEach(btn => {
             btn.addEventListener('click', (e) => this.setFilter(e.target.dataset.filter));
         });
-        
+
         this.clearCompleted.addEventListener('click', () => this.clearCompletedTodos());
-        
+        this.darkModeToggle.addEventListener('click', () => this.toggleDarkMode());
+
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark');
+            this.darkModeToggle.textContent = '☀️';
+        }
+
         this.render();
+    }
+
+    toggleDarkMode() {
+        const isDark = document.body.classList.toggle('dark');
+        this.darkModeToggle.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('darkMode', isDark);
     }
     
     addTodo() {
