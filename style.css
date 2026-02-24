@@ -136,6 +136,33 @@ header h1 {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
+.drag-handle {
+    cursor: grab;
+    color: #ccc;
+    margin-right: 10px;
+    font-size: 1.2rem;
+    user-select: none;
+    line-height: 1;
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+.todo-item.dragging {
+    opacity: 0.4;
+    box-shadow: none;
+    transform: none;
+}
+
+.todo-item.drag-over-top {
+    box-shadow: 0 -3px 0 0 #667eea;
+}
+
+.todo-item.drag-over-bottom {
+    box-shadow: 0 3px 0 0 #667eea;
+}
+
 .todo-item.completed .todo-text {
     text-decoration: line-through;
     color: #999;
@@ -284,6 +311,18 @@ body.dark .todo-text {
 
 body.dark .todo-item.completed .todo-text {
     color: #666;
+}
+
+body.dark .drag-handle {
+    color: #555;
+}
+
+body.dark .todo-item.drag-over-top {
+    box-shadow: 0 -3px 0 0 #667eea;
+}
+
+body.dark .todo-item.drag-over-bottom {
+    box-shadow: 0 3px 0 0 #667eea;
 }
 
 body.dark .stats {
