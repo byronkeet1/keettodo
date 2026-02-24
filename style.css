@@ -211,3 +211,106 @@ header h1 {
     font-size: 4rem;
     margin-bottom: 15px;
 }
+
+/* Dark mode toggle */
+header {
+    position: relative;
+}
+
+.dark-mode-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.dark-mode-toggle:hover {
+    background: rgba(255,255,255,0.35);
+    transform: scale(1.1);
+}
+
+/* Dark mode styles */
+body.dark {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+body.dark .todo-app {
+    background: #1e1e2e;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+body.dark #todoInput {
+    background: #2a2a3e;
+    border-color: #3a3a5e;
+    color: #e0e0e0;
+}
+
+body.dark #todoInput::placeholder {
+    color: #777;
+}
+
+body.dark #todoInput:focus {
+    border-color: #667eea;
+}
+
+body.dark .filter-btn {
+    background: #2a2a3e;
+    border-color: #3a3a5e;
+    color: #ccc;
+}
+
+body.dark .filter-btn:hover {
+    border-color: #667eea;
+}
+
+body.dark .filter-btn.active {
+    color: white;
+}
+
+body.dark .todo-item {
+    background: #2a2a3e;
+}
+
+body.dark .todo-text {
+    color: #e0e0e0;
+}
+
+body.dark .todo-item.completed .todo-text {
+    color: #666;
+}
+
+body.dark .stats {
+    border-top-color: #3a3a5e;
+    color: #999;
+}
+
+body.dark .clear-btn {
+    color: #ff6b6b;
+}
+
+body.dark .clear-btn:hover {
+    background: rgba(255, 107, 107, 0.15);
+}
+
+body.dark .clear-btn:disabled {
+    color: #555;
+}
+
+body.dark .delete-btn:hover {
+    background: rgba(255, 107, 107, 0.15);
+}
+
+body.dark .empty-state {
+    color: #666;
+}
+
+body.dark .dark-mode-toggle {
+    background: rgba(255,255,255,0.1);
+}
