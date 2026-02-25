@@ -1,0 +1,9 @@
+{
+  "name": "keettodo",
+  "version": "1.0.0",
+  "description": "Simple todo app",
+  "scripts": {
+    "test": "node tests/app.test.js"
+  },
+  "devDependencies": {}
+}
