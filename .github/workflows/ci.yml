@@ -1,0 +1,46 @@
+name: Agent Swarm CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [feat/**]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+        
+    - name: Install dependencies
+      run: |
+        if [ -f package.json ]; then
+          npm ci || npm install
+        fi
+        
+    - name: Run tests
+      id: test
+      run: |
+        if [ -f package.json ] && grep -q '"test"' package.json; then
+          npm test
+        else
+          echo "No tests configured"
+          exit 0
+        fi
+      
+    - name: Test Summary
+      if: always()
+      run: |
+        if [ "${{ steps.test.outcome }}" == "success" ]; then
+          echo "✅ All tests passed!"
+        else
+          echo "❌ Tests failed - fix agent will be notified"
+          exit 1
+        fi
