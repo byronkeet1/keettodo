@@ -13,6 +13,10 @@ class TodoApp {
         this.prioritySelect = document.getElementById('prioritySelect');
 
         this.darkModeToggle = document.getElementById('darkModeToggle');
+        this.undoToast = document.getElementById('undoToast');
+        this.undoBtn = document.getElementById('undoBtn');
+        this.undoTimeout = null;
+        this.lastDeleted = null;
 
         this.init();
     }
@@ -29,6 +33,7 @@ class TodoApp {
 
         this.clearCompleted.addEventListener('click', () => this.clearCompletedTodos());
         this.darkModeToggle.addEventListener('click', () => this.toggleDarkMode());
+        this.undoBtn.addEventListener('click', () => this.undoDelete());
 
         this.todoList.addEventListener('dragstart', (e) => this.handleDragStart(e));
         this.todoList.addEventListener('dragover', (e) => this.handleDragOver(e));
@@ -87,7 +92,48 @@ class TodoApp {
     }
 
     deleteTodo(id) {
-        this.todos = this.todos.filter(t => t.id !== id);
+        const item = this.todoList.querySelector(`[data-id="${id}"]`);
+        const todo = this.todos.find(t => t.id === id);
+        if (!todo) return;
+
+        const index = this.todos.indexOf(todo);
+        this.lastDeleted = { todo: { ...todo }, index };
+
+        if (item) {
+            item.classList.add('deleting');
+            item.addEventListener('animationend', () => {
+                this.todos = this.todos.filter(t => t.id !== id);
+                this.saveTodos();
+                this.render();
+                this.showUndoToast(todo.text);
+            }, { once: true });
+        } else {
+            this.todos = this.todos.filter(t => t.id !== id);
+            this.saveTodos();
+            this.render();
+            this.showUndoToast(todo.text);
+        }
+    }
+
+    showUndoToast(text) {
+        clearTimeout(this.undoTimeout);
+        const label = text.length > 25 ? text.substring(0, 25) + '...' : text;
+        this.undoToast.querySelector('.undo-text').textContent = `"${label}" deleted`;
+        this.undoToast.classList.add('visible');
+        this.undoTimeout = setTimeout(() => {
+            this.undoToast.classList.remove('visible');
+            this.lastDeleted = null;
+        }, 5000);
+    }
+
+    undoDelete() {
+        if (!this.lastDeleted) return;
+        clearTimeout(this.undoTimeout);
+        this.undoToast.classList.remove('visible');
+
+        const { todo, index } = this.lastDeleted;
+        this.todos.splice(Math.min(index, this.todos.length), 0, todo);
+        this.lastDeleted = null;
         this.saveTodos();
         this.render();
     }

@@ -237,11 +237,79 @@ header h1 {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 8px;
-    transition: background 0.2s;
+    transition: background 0.2s, opacity 0.2s;
+    opacity: 0;
+    flex-shrink: 0;
+}
+
+.todo-item:hover .delete-btn {
+    opacity: 1;
 }
 
 .delete-btn:hover {
     background: #ffe0e0;
+}
+
+/* Always show delete button on touch devices */
+@media (hover: none) {
+    .delete-btn {
+        opacity: 1;
+    }
+}
+
+/* Delete animation */
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+        height: 0;
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+    }
+}
+
+.todo-item.deleting {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+/* Undo toast */
+.undo-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: #333;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    z-index: 1000;
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.undo-toast.visible {
+    transform: translateX(-50%) translateY(0);
+}
+
+.undo-toast .undo-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #667eea;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.undo-toast .undo-btn:hover {
+    background: rgba(255,255,255,0.1);
 }
 
 .stats {
@@ -416,6 +484,11 @@ body.dark .clear-btn:disabled {
 
 body.dark .delete-btn:hover {
     background: rgba(255, 107, 107, 0.15);
+}
+
+body.dark .undo-toast {
+    background: #2a2a3e;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 
 body.dark .empty-state {
