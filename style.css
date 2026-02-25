@@ -237,11 +237,37 @@ header h1 {
     cursor: pointer;
     padding: 5px 10px;
     border-radius: 8px;
-    transition: background 0.2s;
+    transition: background 0.2s, opacity 0.2s;
+    opacity: 0;
+}
+
+.todo-item:hover .delete-btn {
+    opacity: 1;
 }
 
 .delete-btn:hover {
     background: #ffe0e0;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
+
+.todo-item.deleting {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@media (hover: none) {
+    .delete-btn {
+        opacity: 1;
+    }
 }
 
 .stats {

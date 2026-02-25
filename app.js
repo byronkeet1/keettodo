@@ -87,9 +87,19 @@ class TodoApp {
     }
 
     deleteTodo(id) {
-        this.todos = this.todos.filter(t => t.id !== id);
-        this.saveTodos();
-        this.render();
+        const item = this.todoList.querySelector(`[data-id="${id}"]`);
+        if (item) {
+            item.classList.add('deleting');
+            item.addEventListener('animationend', () => {
+                this.todos = this.todos.filter(t => t.id !== id);
+                this.saveTodos();
+                this.render();
+            }, { once: true });
+        } else {
+            this.todos = this.todos.filter(t => t.id !== id);
+            this.saveTodos();
+            this.render();
+        }
     }
     
     setFilter(filter) {
