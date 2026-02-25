@@ -195,6 +195,23 @@ header h1 {
     flex: 1;
     font-size: 1rem;
     color: #333;
+    cursor: text;
+}
+
+.todo-item.editing {
+    box-shadow: 0 0 0 2px #667eea;
+}
+
+.edit-input {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+    font-family: inherit;
+    padding: 4px 8px;
+    border: none;
+    border-radius: 6px;
+    background: white;
+    outline: none;
 }
 
 .priority-badge {
@@ -446,6 +463,11 @@ body.dark .todo-item {
 }
 
 body.dark .todo-text {
+    color: #e0e0e0;
+}
+
+body.dark .edit-input {
+    background: #1e1e2e;
     color: #e0e0e0;
 }
 

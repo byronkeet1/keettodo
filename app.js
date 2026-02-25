@@ -35,6 +35,14 @@ class TodoApp {
         this.darkModeToggle.addEventListener('click', () => this.toggleDarkMode());
         this.undoBtn.addEventListener('click', () => this.undoDelete());
 
+        this.todoList.addEventListener('dblclick', (e) => {
+            const todoText = e.target.closest('.todo-text');
+            if (todoText) {
+                const item = todoText.closest('.todo-item');
+                if (item) this.startEdit(Number(item.dataset.id));
+            }
+        });
+
         this.todoList.addEventListener('dragstart', (e) => this.handleDragStart(e));
         this.todoList.addEventListener('dragover', (e) => this.handleDragOver(e));
         this.todoList.addEventListener('drop', (e) => this.handleDrop(e));
@@ -256,6 +264,64 @@ class TodoApp {
         this.todoList.querySelectorAll('.dragging, .drag-over-top, .drag-over-bottom').forEach(el => {
             el.classList.remove('dragging', 'drag-over-top', 'drag-over-bottom');
         });
+    }
+
+    startEdit(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (!todo || todo.completed) return;
+
+        const item = this.todoList.querySelector(`[data-id="${id}"]`);
+        if (!item) return;
+
+        const textSpan = item.querySelector('.todo-text');
+        if (!textSpan) return;
+
+        item.classList.add('editing');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'edit-input';
+        input.value = todo.text;
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                this.saveEdit(id, input.value);
+            } else if (e.key === 'Escape') {
+                this.cancelEdit(id);
+            }
+        });
+
+        input.addEventListener('blur', () => {
+            if (item.classList.contains('editing')) {
+                this.saveEdit(id, input.value);
+            }
+        });
+
+        textSpan.replaceWith(input);
+        input.focus();
+        input.select();
+    }
+
+    saveEdit(id, newText) {
+        const trimmed = newText.trim();
+        if (!trimmed) {
+            this.cancelEdit(id);
+            return;
+        }
+
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            todo.text = trimmed;
+            this.saveTodos();
+        }
+        this.render();
+    }
+
+    cancelEdit(id) {
+        const item = this.todoList.querySelector(`[data-id="${id}"]`);
+        if (item) {
+            item.classList.remove('editing');
+        }
+        this.render();
     }
 
     escapeHtml(text) {
