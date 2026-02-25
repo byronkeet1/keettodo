@@ -150,7 +150,7 @@ class TodoApp {
                     onchange="app.toggleTodo(${todo.id})">
                 <span class="todo-text">${this.escapeHtml(todo.text)}</span>
                 <span class="priority-badge priority-${priority}" onclick="app.cyclePriority(${todo.id})" title="Click to change priority">${priorityLabel}</span>
-                <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">🗑️</button>
+                <button class="delete-btn" onclick="app.deleteTodo(${todo.id})" title="Delete task" aria-label="Delete task">🗑️</button>
             </li>
         `;
         }).join('');
