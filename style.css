@@ -61,6 +61,21 @@ header h1 {
     border-color: #667eea;
 }
 
+.priority-select {
+    padding: 10px 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    outline: none;
+    background: white;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.priority-select:focus {
+    border-color: #667eea;
+}
+
 .add-btn {
     width: 50px;
     height: 50px;
@@ -182,6 +197,38 @@ header h1 {
     color: #333;
 }
 
+.priority-badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    margin-right: 8px;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+}
+
+.priority-badge:hover {
+    opacity: 0.8;
+}
+
+.priority-high {
+    background: #ffe0e0;
+    color: #d32f2f;
+}
+
+.priority-medium {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.priority-low {
+    background: #e8f5e9;
+    color: #388e3c;
+}
+
 .delete-btn {
     background: none;
     border: none;
@@ -299,6 +346,31 @@ body.dark .filter-btn:hover {
 
 body.dark .filter-btn.active {
     color: white;
+}
+
+body.dark .priority-select {
+    background: #2a2a3e;
+    border-color: #3a3a5e;
+    color: #e0e0e0;
+}
+
+body.dark .priority-select:focus {
+    border-color: #667eea;
+}
+
+body.dark .priority-high {
+    background: rgba(211, 47, 47, 0.2);
+    color: #ef5350;
+}
+
+body.dark .priority-medium {
+    background: rgba(245, 124, 0, 0.2);
+    color: #ffa726;
+}
+
+body.dark .priority-low {
+    background: rgba(56, 142, 60, 0.2);
+    color: #66bb6a;
 }
 
 body.dark .todo-item {
