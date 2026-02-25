@@ -10,6 +10,7 @@ class TodoApp {
         this.filterBtns = document.querySelectorAll('.filter-btn');
         this.itemsLeft = document.getElementById('itemsLeft');
         this.clearCompleted = document.getElementById('clearCompleted');
+        this.prioritySelect = document.getElementById('prioritySelect');
 
         this.darkModeToggle = document.getElementById('darkModeToggle');
 
@@ -56,6 +57,7 @@ class TodoApp {
             id: Date.now(),
             text: text,
             completed: false,
+            priority: this.prioritySelect.value,
             createdAt: new Date().toISOString()
         };
         
@@ -74,6 +76,16 @@ class TodoApp {
         }
     }
     
+    cyclePriority(id) {
+        const todo = this.todos.find(t => t.id === id);
+        if (todo) {
+            const cycle = { low: 'medium', medium: 'high', high: 'low' };
+            todo.priority = cycle[todo.priority || 'medium'];
+            this.saveTodos();
+            this.render();
+        }
+    }
+
     deleteTodo(id) {
         this.todos = this.todos.filter(t => t.id !== id);
         this.saveTodos();
@@ -127,16 +139,21 @@ class TodoApp {
             return;
         }
         
-        this.todoList.innerHTML = filteredTodos.map(todo => `
+        this.todoList.innerHTML = filteredTodos.map(todo => {
+            const priority = todo.priority || 'medium';
+            const priorityLabel = priority.charAt(0).toUpperCase() + priority.slice(1);
+            return `
             <li class="todo-item ${todo.completed ? 'completed' : ''}" data-id="${todo.id}" draggable="true">
                 <span class="drag-handle" aria-label="Drag to reorder">⠿</span>
                 <input type="checkbox" class="todo-checkbox"
                     ${todo.completed ? 'checked' : ''}
                     onchange="app.toggleTodo(${todo.id})">
                 <span class="todo-text">${this.escapeHtml(todo.text)}</span>
+                <span class="priority-badge priority-${priority}" onclick="app.cyclePriority(${todo.id})" title="Click to change priority">${priorityLabel}</span>
                 <button class="delete-btn" onclick="app.deleteTodo(${todo.id})">🗑️</button>
             </li>
-        `).join('');
+        `;
+        }).join('');
     }
     
     handleDragStart(e) {
